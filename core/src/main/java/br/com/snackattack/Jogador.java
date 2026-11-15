@@ -18,15 +18,17 @@ public class Jogador {
             if (posX < Gdx.graphics.getWidth() - prota.getWidth()) {
                 posX += VELOCIDADE * delta;
             }
-        } else if(Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)){
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             if (posY < Gdx.graphics.getHeight() - prota.getHeight()){
                 posY += VELOCIDADE * delta;
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (Gdx.graphics.getWidth() > 0){
                 posX -= VELOCIDADE * delta;
             }
-            }
+        }
     }
 
     public float getPosX() {
