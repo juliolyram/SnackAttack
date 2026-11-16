@@ -1,46 +1,47 @@
 package br.com.snackattack;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import br.com.snackattack.dominio.Jogador;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Gdx;
 
 
-/**
- * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
- */
-public class Main extends ApplicationAdapter {
+public class Main extends Game {
     private SpriteBatch batch;
-    private Texture image, tNave;
-    public Sprite nave;
-    private Jogador jogador;
+    private Texture image;
+    private Mundo mundo;
+
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
-        tNave = new Texture("Boneco NORMAL A1.png");
-        nave = new Sprite(tNave);
-        jogador = new Jogador(nave);
-    }
 
+        mundo = new Mundo();
+    }
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        jogador.moverJogador(delta);
+        float largura = Gdx.graphics.getWidth();
+        float altura = Gdx.graphics.getHeight();
+
+        mundo.update(delta, largura, altura);
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+
+        
         batch.begin();
         batch.draw(image, 140, 210);
-        batch.draw(nave, jogador.getPosX(), jogador.getPosY());
+        mundo.render(batch, largura, altura);
         batch.end();
+
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         image.dispose();
-        tNave.dispose();
+        mundo.dispose();
     }
 }
