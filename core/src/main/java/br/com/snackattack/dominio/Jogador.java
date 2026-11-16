@@ -11,12 +11,13 @@ public class Jogador {
     private Sprite prota;
 
     private float posX = 0, posY = 0;
-    private float VELOCIDADE = 300;
+    private float VELOCIDADE = 5;
 
 
     public Jogador() {
-        tProta = new Texture("Boneco NORMAL A1.png");
+        tProta = new Texture("Boneco_NORMAL_A1-removebg-preview.png");
         prota = new Sprite(tProta);
+        prota.setSize(1.2f,1.2f);
     }
     public void mover(float delta, float mundoLargura, float mundoAltura){
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
