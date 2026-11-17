@@ -27,18 +27,19 @@ public class Jogador {
 
         BodyDef confCorporal = new BodyDef();
         confCorporal.type = BodyDef.BodyType.DynamicBody;
-        confCorporal.position.set(4,2);
+        confCorporal.position.set(4,2); // posição incial do body
+        confCorporal.fixedRotation = true;
         corpo = world.createBody(confCorporal);
-        caixa = new PolygonShape();
-        caixa.setAsBox(0.6f,0.6f);
+        caixa = new PolygonShape();  // HitBox do personagem
+        caixa.setAsBox(0.6f,0.6f);  // Define metade da largura e da altura da HitBox
 
         confColisor = new FixtureDef();
         confColisor.shape = caixa;
-        confColisor.density = 1f;
-        confColisor.friction = 0.2f;
-        confColisor.restitution = 0.0f;
+        confColisor.density = 1f;  // densidade entra na parte da física
+        confColisor.friction = 0.2f; // atrito para não sair deslizando
+        confColisor.restitution = 0.0f; // não quica
         colisor = corpo.createFixture(confColisor);
-        caixa.dispose();
+        caixa.dispose(); // Libera a Shape após criar a Fixture
     }
     public void mover(float delta, float mundoLargura, float mundoAltura){
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
@@ -59,7 +60,7 @@ public class Jogador {
         prota.setPosition(
             corpo.getPosition().x - prota.getWidth() / 2,
             corpo.getPosition().y - prota.getHeight() / 2
-        );
+        ); // conectando o Sprite prota a HitBox para a física funcionar
     }
 
     public void render(SpriteBatch batch){
