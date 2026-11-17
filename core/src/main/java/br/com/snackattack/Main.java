@@ -15,8 +15,6 @@ public class Main extends Game {
     private SpriteBatch batch;
     private Texture image;
     private Mundo mundo;
-
-    public SpriteBatch spriteBatch;
     public ExtendViewport viewport;
 
 
@@ -48,6 +46,7 @@ public class Main extends Game {
         mundo.render(batch, largura, altura);
         batch.end();
 
+        mundo.renderDebug(viewport.getCamera().combined);
     }
     @Override
     public void resize(int largura, int altura){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Jogador {
     private Texture tProta;
@@ -14,7 +15,7 @@ public class Jogador {
     private float VELOCIDADE = 5;
 
 
-    public Jogador() {
+    public Jogador(World world) {
         tProta = new Texture("Boneco_NORMAL_A1-removebg-preview.png");
         prota = new Sprite(tProta);
         prota.setSize(1.2f,1.2f);
