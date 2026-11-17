@@ -25,6 +25,7 @@ public class Mundo {
     public void update(float delta, float mundoLargura, float mundoAltura) {
         jogador.mover(delta, mundoLargura, mundoAltura);
         world.step(1/60f,6,2);
+        jogador.update();
     }
 
     public void render(SpriteBatch batch, float largura, float altura) {
