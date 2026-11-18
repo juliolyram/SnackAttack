@@ -22,11 +22,7 @@ public class Main extends Game {
     public void create() {
         batch = new SpriteBatch();
         viewport = new ExtendViewport(16f,9f);
-        image = new Texture("libgdx.png");
-
         mundo = new Mundo();
-
-
     }
     @Override
     public void render() {
@@ -42,7 +38,6 @@ public class Main extends Game {
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
         batch.begin();
-        batch.draw(image, 1, 1, 3, 3);
         mundo.render(batch, largura, altura);
         batch.end();
 
