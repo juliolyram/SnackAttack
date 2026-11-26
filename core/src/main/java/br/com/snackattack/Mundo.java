@@ -1,9 +1,8 @@
-
 package br.com.snackattack;
 
-import br.com.snackattack.dominio.Ceu;
-import br.com.snackattack.dominio.Chao;
 import br.com.snackattack.dominio.Jogador;
+import br.com.snackattack.dominio.Mapa;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -13,15 +12,14 @@ public class Mundo {
     private Jogador jogador;
     private World mundo;
     private Box2DDebugRenderer debugRenderer;
-    private Chao chao;
-    private Ceu ceu;
+    private Mapa mapa;
+
     public Mundo() {
         Box2D.init();
-        mundo = new World(new Vector2(0,-22),true);
-        debugRenderer  = new Box2DDebugRenderer();
+        mundo = new World(new Vector2(0, -22), true);
+        debugRenderer = new Box2DDebugRenderer();
         jogador = new Jogador(mundo);
-        chao = new Chao(mundo);
-        ceu = new Ceu(mundo);
+        mapa = new Mapa(mundo);
         mundo.setContactListener(new ContactListener() {
 
             @Override
@@ -56,28 +54,48 @@ public class Mundo {
             public void postSolve(Contact contato, ContactImpulse impulso) {
             }
         });
-
     }
 
     public void update(float delta, float mundoLargura, float mundoAltura) {
         jogador.lerEntrada();
         jogador.mover(delta);
-        mundo.step(1/60f,6,2);
+        mundo.step(1 / 60f, 6, 2);
         jogador.animar(delta);
     }
 
-    public void render(SpriteBatch batch, float largura, float altura) {
-        ceu.render(batch, largura, altura);
-        chao.render(batch, largura,altura);
+    public void renderMapa(OrthographicCamera camera) {
+        mapa.render(camera);
+    }
+
+    public void renderJogador(SpriteBatch batch) {
         jogador.render(batch);
     }
+
     public void renderDebug(Matrix4 camera) {
         debugRenderer.render(mundo, camera);
     }
+
+    // ===== NOVO ===== início: dados que o Main usa para posicionar a câmera
+    public float getJogadorX() {
+        return jogador.getX();
+    }
+
+    public float getJogadorY() {
+        return jogador.getY();
+    }
+
+    public int getMapaLargura() {
+        return mapa.largura;
+    }
+
+    public int getMapaAltura() {
+        return mapa.altura;
+    }
+    // ===== NOVO ===== fim
+
     public void dispose() {
         jogador.dispose();
-        chao.dispose();
-        ceu.dispose();
+        mapa.dispose();
         debugRenderer.dispose();
         mundo.dispose();
     }
