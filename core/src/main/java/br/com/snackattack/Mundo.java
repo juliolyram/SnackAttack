@@ -1,5 +1,6 @@
 package br.com.snackattack;
 
+import br.com.snackattack.dominio.Barras;
 import br.com.snackattack.dominio.Jogador;
 import br.com.snackattack.dominio.Mapa;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +14,7 @@ public class Mundo {
     private World mundo;
     private Box2DDebugRenderer debugRenderer;
     private Mapa mapa;
+    private Barras barras;
 
     public Mundo() {
         Box2D.init();
@@ -20,6 +22,7 @@ public class Mundo {
         debugRenderer = new Box2DDebugRenderer();
         jogador = new Jogador(mundo);
         mapa = new Mapa(mundo);
+        barras = new Barras();
         mundo.setContactListener(new ContactListener() {
 
             @Override
@@ -71,11 +74,19 @@ public class Mundo {
         jogador.render(batch);
     }
 
+    public void renderBarras(){
+        barras.render(jogador);
+    }
+
+    public void redimensionar(int largura, int altura) {
+        barras.redimensionar(largura, altura);
+    }
+
     public void renderDebug(Matrix4 camera) {
         debugRenderer.render(mundo, camera);
     }
 
-    // ===== NOVO ===== início: dados que o Main usa para posicionar a câmera
+    //dados que o Main usa para posicionar a câmera
     public float getJogadorX() {
         return jogador.getX();
     }
@@ -91,12 +102,17 @@ public class Mundo {
     public int getMapaAltura() {
         return mapa.altura;
     }
-    // ===== NOVO ===== fim
+
+    public Jogador getJogador() {
+        return jogador;
+    }
+    //fim
 
     public void dispose() {
         jogador.dispose();
         mapa.dispose();
         debugRenderer.dispose();
         mundo.dispose();
+        barras.dispose();
     }
 }

@@ -37,22 +37,25 @@ public class Main extends Game {
         camera.position.x = MathUtils.clamp(mundo.getJogadorX(), metadeL, mundo.getMapaLargura() - metadeL);
         camera.position.y = MathUtils.clamp(mundo.getJogadorY(), metadeA, mundo.getMapaAltura() - metadeA);
         camera.update();
-        // ===== NOVO ===== fim
 
-        mundo.renderMapa(camera);              // 1º: mapa (fora do batch)
+        System.out.println("jogador=" + mundo.getJogadorX() + "," + mundo.getJogadorY()
+            + " camera=" + camera.position.x + "," + camera.position.y
+            + " mapa=" + mundo.getMapaLargura() + "x" + mundo.getMapaAltura());
+        mundo.renderMapa(camera);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        mundo.renderJogador(batch);            // 2º: jogador por cima
+        mundo.renderJogador(batch);
         batch.end();
+        mundo.renderBarras();
 
         mundo.renderDebug(camera.combined);
     }
 
     @Override
     public void resize(int largura, int altura) {
-        // ===== NOVO ===== trocado true por false, para não recentralizar a câmera
         viewport.update(largura, altura, false);
+        mundo.redimensionar(largura, altura);
     }
 
     @Override

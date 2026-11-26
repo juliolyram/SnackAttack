@@ -10,8 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Jogador {
-
+public class Jogador extends Entidades{
     private Texture textura;
     private Animation<TextureRegion> animacaoParado;
 
@@ -22,50 +21,45 @@ public class Jogador {
 
     private float tempoEstado = 0f;
 
-    private Body corpo;
 
+    // configurações da física
     private static final float VELOCIDADE = 6f;
     private static final float FORCA_PULO = 12f;
-    private static final float FORCA_PULO_DUPLO = 12.5f;
+    private static final float FORCA_PULO_DUPLO = 13f;
     private static final float VELOCIDADE_MAX_QUEDA = -16f;
-
     private static final float GRAVIDADE_NORMAL = 1.0f;
     private static final float GRAVIDADE_QUEDA = 1.5f;
     private static final float GRAVIDADE_PICO = 0.5f;
     private static final float LIMITE_PULO = 1.5f;
     private static final float CORTE_PULO = 0.45f;
-
     private static final float TEMPO_COIOTE = 0.1f;
     private static final float BUFFER_PULO = 0.12f;
-
     private float temporizadorCoiote = 0f;
     private float temporizadorBufferPulo = 0f;
-
     private int contatosPes = 0;
     private int pulosNoArRestantes = 1;
-
     private boolean puloPressionado = false;
 
+    // atributos
+    private float estomago = 100f;
+    private final float ESTOMAGO_MAX = 100f;
+
+
     public Jogador(World mundo) {
+        // atributos e física
+        super(mundo, 2f, 4f, 100f, 10f);
+
+        // animação
         textura = new Texture("spritesheet_boneco.png");
         TextureRegion[] quadros = TextureRegion.split(textura, 113, 113)[0];
-
         animacaoParado = new Animation<>(0.4f, quadros[3], quadros[4]);
         animacaoParado.setPlayMode(Animation.PlayMode.LOOP);
-
         puloSubindo = quadros[5];
         puloPico = quadros[6];
         puloCaindo = quadros[7];
-
         quadroAtual = quadros[3];
 
-        BodyDef confCorporal = new BodyDef();
-        confCorporal.type = BodyDef.BodyType.DynamicBody;
-        confCorporal.position.set(2f, 4f);
-        confCorporal.fixedRotation = true;
-
-        corpo = mundo.createBody(confCorporal);
-
+        // hitbox
         criarCapsula();
     }
 
@@ -159,13 +153,6 @@ public class Jogador {
             altura
         );
     }
-    public float getX() {
-        return corpo.getPosition().x;
-    }
-
-    public float getY() {
-        return corpo.getPosition().y;
-    }
     public void dispose() {
         textura.dispose();
     }
@@ -201,6 +188,14 @@ public class Jogador {
         formaSensor.dispose();
     }
 
+    public float getESTOMAGO_MAX() {
+        return ESTOMAGO_MAX;
+    }
+
+    public float getEstomago() {
+        return estomago;
+    }
+
     public void adicionarContatoPe() {
         contatosPes++;
     }
@@ -209,3 +204,4 @@ public class Jogador {
         contatosPes = Math.max(0, contatosPes - 1);
     }
 }
+
